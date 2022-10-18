@@ -1,0 +1,22 @@
+server:
+  port: 8081
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: abc
+          uri: lb://consumer
+          predicates:
+            - Path=/red/{ab}
+            - Query=green
+          filters:
+            - AddRequestHeader=X-Request-red, blue
+            - AddRequestParameter=red,blue
+            - SetPath=/{ab}
+      discovery:
+        locator:
+          enabled: false
+  application:
+    name: gateway
